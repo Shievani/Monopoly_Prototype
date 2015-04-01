@@ -162,7 +162,7 @@ background-color: rgb(255, 255, 0);</string>
      <string>Player 4</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="P1_details">
+   <widget class="QPushButton" name="P0_details">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -172,10 +172,10 @@ background-color: rgb(255, 255, 0);</string>
      </rect>
     </property>
     <property name="text">
-     <string>Details</string>
+     <string>1500</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="P2_details">
+   <widget class="QPushButton" name="P1_details">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -185,10 +185,10 @@ background-color: rgb(255, 255, 0);</string>
      </rect>
     </property>
     <property name="text">
-     <string>Details</string>
+     <string>1500</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="P3_details">
+   <widget class="QPushButton" name="P2_details">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -198,10 +198,10 @@ background-color: rgb(255, 255, 0);</string>
      </rect>
     </property>
     <property name="text">
-     <string>Details</string>
+     <string>1500</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="P4_details">
+   <widget class="QPushButton" name="P3_details">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -211,7 +211,7 @@ background-color: rgb(255, 255, 0);</string>
      </rect>
     </property>
     <property name="text">
-     <string>Details</string>
+     <string>1500</string>
     </property>
    </widget>
    <widget class="QLCDNumber" name="dice1">

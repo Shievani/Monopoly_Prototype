@@ -1,47 +1,35 @@
 #include "monopoly.h"
 
-Players Player[4];
+Player players[4];
 Cell cells[] =
     {
         {"Go",_Start,-1,560,560,0}, // {name, TypeOfCell,owner,xCoord,yCoord,rent};
-        {"Mumbai", _City, -1, 40,560,200},
+        {"Mumbai", _City, 0, 40,560,200},
         {"IGA", _Airport,-1,40,40,300},
         {"Chance", _ChanceCard, -1, 560,100, 0},
         {"Jail", _Jail, -1, 560, 300, 0},
         {"Go to Jail", _GoToJail, -1, 560,500,0}
     };
 
+int bankReserves= 2000;
+
 void initialiseGame()
 {
     for (int i = 0; i < 4; i++)
     {
-        Player[i].position = 0;
-        Player[i].inJail = false;
-        Player[i].balance = 1500;
-        Player[i].name = ""; //todo
+        players[i].position = 0;
+        players[i].inJail = false;
+        players[i].balance = 1500;
+        players[i].name = ""; //todo
     }
 }
 
-    /*
-    cells[0].name = "GO";
-    cells[0].TypeOfCell = _Go;
-    cells[0].xCoord = 560;
-    cells[0].yCoord = 560;
-    cells[0].rent = 0;
-    cells[0].owner = -1;
+void payingRent ( Player &player ){      /* this input syntax declares that the input will be an object of stuct Players named anything u want.
+                                        pass by reference changes value of input of this function itself. if we pass by value, then players[s}
+                                        ki value alag se copy hoti hai and woh change hoti hai. */
 
-    cells[1].name = "Mumbai";
-    cells[1].TypeOfCell = _City;
-    cells[1].xCoord = 40;
-    cells[1].yCoord = 560;
-    cells[1].rent = 200;
-    cells[1].owner = -1;
-
-    cells[2].name = "Indira Gandhi Airport";
-    cells[2].TypeOfCell = _Airport;
-    cells[2].owner = -1;
-    cells[2].xCoord = 40;
-    cells[2].yCoord = 40;
-    cells[2].rent = 300;
-    */
-
+    if (cells[player.position].type == _City && cells[player.position].owner != -1) {
+        player.balance = player.balance- cells[player.position].rent;
+        players[cells[player.position].owner].balance += cells[player.position].rent;
+     }
+}

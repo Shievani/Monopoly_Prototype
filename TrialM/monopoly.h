@@ -17,12 +17,18 @@ struct Cell
     int rent;
 };
 
-struct Players
+struct Player
 {
     string name;
     int position;
     int balance;
     bool inJail;
 };
+
+Player players[];
+Cell cells[];
+
+void initialiseGame();
+void payingRent(Player &player);
 
 #endif // MONOPOLY

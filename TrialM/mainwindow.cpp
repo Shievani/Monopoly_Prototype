@@ -1,28 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "monopoly.h"
-
-Players Player[4];
-Cell cells[] =
-{
-    {"Go",_Start,-1,560,560,0}, // {name, TypeOfCell,owner,xCoord,yCoord,rent};
-    {"Mumbai", _City, -1, 40,560,200},
-    {"IGA", _Airport,-1,40,40,300},
-    {"Chance", _ChanceCard, -1, 560,100, 0},
-    {"Jail", _Jail, -1, 560, 300, 0},
-    {"Go to Jail", _GoToJail, -1, 560,500,0}
-};
-
-void initialiseGame()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        Player[i].position = 0;
-        Player[i].inJail = false;
-        Player[i].balance = 1500;
-        Player[i].name = ""; //todo
-    }
-}
+#include <iostream>
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -43,9 +23,9 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_rollButton_clicked()
-{ rolldice1 = (rand() % 6) + 1;
+{ srand( time( NULL ) ); // the RNG(random number generator)needs a first input which i am giving here by current time.
+  rolldice1 = (rand() % 6) + 1;
   rolldice2 = (rand() % 6) + 1;
-  turn = (turn + 1)%4; //counts whose turn is it. 0,1,2,3 which are player array indices
   int step=(rolldice1 + rolldice2)%6;// this 6 is because abhi tak 6 hi cells define kiye hain na babuwa
 
 
@@ -53,24 +33,53 @@ void MainWindow::on_rollButton_clicked()
   ui->dice2->display(rolldice2);
 
 
-    switch(turn)
+  players[turn].position = (players[turn].position + step)%6; /*player's current position i.e which cell they are in is being changed.
+                                                              "6" because number of cells is 6. and position should not overflow cells */
+
+  int x = cells[players[turn].position].xCoord;
+  int y = cells[players[turn].position].yCoord;
+
+  cout << players[turn].position << endl;
+  cout << x << " " << y << endl;
+
+  payingRent(players[turn]);
+  switch(turn)
     {
      case 0:
-         Player[0].position = Player[0].position + step; //player's current position i.e which cell they are in is being changed.
-         ui->Pointer0->move( cells[Player[0].position].xCoord,cells[Player[0].position].yCoord ); //moving the GUI pointer
+         ui->Pointer0->move(x, y); //moving the GUI pointer
+         ui->P0_details->setText(QString::number(players[0].balance));
          break;
      case 1:
-         Player[1].position = Player[1].position + step;
-         ui->Pointer1->move( cells[Player[1].position].xCoord,cells[Player[1].position].yCoord );
+         ui->Pointer1->move(x, y);
+         ui->P1_details->setText(QString::number(players[1].balance));
          break;
      case 2:
-         Player[2].position = Player[2].position + step;
-         ui->Pointer2->move( cells[Player[2].position].xCoord,cells[Player[2].position].yCoord );
+         ui->Pointer2->move(x, y);
+         ui->P2_details->setText(QString::number(players[2].balance));
          break;
      case 3:
-         Player[3].position = Player[3].position + step;
-         ui->Pointer3->move( cells[Player[3].position].xCoord,cells[Player[3].position].yCoord );
+         ui->Pointer3->move(x, y);
+         ui->P3_details->setText(QString::number(players[3].balance));
          break;
     }
+    turn = (turn +1)%4; //counts whose turn is it. 0,1,2,3 which are player array indices
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
