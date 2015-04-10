@@ -34,7 +34,7 @@ void MainWindow::on_rollButton_clicked()
 
 
   players[turn].position = (players[turn].position + step)%6; /*player's current position i.e which cell they are in is being changed.
-                                                              "6" because number of cells is 6. and position should not overflow cells */
+                                                              NAHI CHAMKA "6" because number of cells is 6. and position should not overflow cells */
 
   int x = cells[players[turn].position].xCoord;
   int y = cells[players[turn].position].yCoord;
