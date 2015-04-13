@@ -26,8 +26,8 @@ struct Player
     bool inJail;
 };
 
-Player players[];
-Cell cells[];
+extern Player players[];
+extern Cell cells[];
 
 bool canSell(Player&);
 bool sellCell(int);
