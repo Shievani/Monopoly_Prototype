@@ -3,7 +3,7 @@
 #include <QString>
 using namespace std;
 
-enum TypeOfCell {_RailRoad, _City , _ChanceCard , _Start , _GoToJail, _Jail , _IncomeTax, _Type, _CommunityCard
+enum TypeOfCell {_City , _ChanceCard , _Start , _GoToJail, _Jail , _Type, _CommunityCard
                 ,_GoTo, _Tax};
 
 //enum lets you choose only one of the defined values of TypeOfCell. now TypeOfCell is just a data type, like int is.
