@@ -1,16 +1,16 @@
 #ifndef MONOPOLY
 #define MONOPOLY
-#include <string>
+#include <QString>
 using namespace std;
 
-enum TypeOfCell {_RailRoad, _City , _Airport , _ChanceCard , _Start , _GoToJail, _Jail , _IncomeTax, _Type, _CommunityCard, _WaterWays
-                ,_GoTo, _Railroad, _ElectricCompany, _Tax};
+enum TypeOfCell {_RailRoad, _City , _ChanceCard , _Start , _GoToJail, _Jail , _IncomeTax, _Type, _CommunityCard
+                ,_GoTo, _Tax};
 
 //enum lets you choose only one of the defined values of TypeOfCell. now TypeOfCell is just a data type, like int is.
 
 struct Cell
 {
-    string name;
+    QString name;
     TypeOfCell type;
     int owner;
     int xCoord;
@@ -29,7 +29,8 @@ struct Player
 Player players[];
 Cell cells[];
 
-
+bool canSell(Player&);
+bool sellCell(int);
 void initialiseGame();
 void payingRent(Player &player, int &notification);
 bool goToJail(Player &player, int &notification);

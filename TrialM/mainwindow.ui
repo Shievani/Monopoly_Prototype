@@ -297,6 +297,9 @@ background-color: rgb(255, 255, 0);</string>
     </property>
    </widget>
    <widget class="QPushButton" name="YesButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>690</x>
@@ -319,6 +322,9 @@ background-color: rgb(255, 255, 0);</string>
     </property>
    </widget>
    <widget class="QPushButton" name="NoButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>840</x>

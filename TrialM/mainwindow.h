@@ -21,8 +21,15 @@ public slots:
                                     is clicked*/
 
 
+private slots:
+    void on_YesButton_clicked();
+
+    void on_NoButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    void setResponseButtonsState(bool);
 
     int rolldice1;
     int rolldice2;
