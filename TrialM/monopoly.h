@@ -28,6 +28,7 @@ struct Player
 
 extern Player players[];
 extern Cell cells[];
+extern int numOfCells;
 
 bool canSell(Player&);
 bool sellCell(int);

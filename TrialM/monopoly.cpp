@@ -48,6 +48,8 @@ Cell cells[] =
     { "BoardWalk Palace", _City, -1, 590, 510, 400 }
 };
 
+int numOfCells = sizeof(cells) / sizeof(cells[0]);
+
 int bankReserves= 2000;
 
 void initialiseGame()

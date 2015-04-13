@@ -33,8 +33,8 @@ void MainWindow::on_rollButton_clicked()
   ui->dice2->display(rolldice2);
   ui->turnlabel->setText(QString::number(turn+1));
 
-  players[turn].position = (players[turn].position + step) % 41; /*player's current position i.e which cell they are in is being changed.
-                                                             41 because position should not overflow cells */
+  players[turn].position = (players[turn].position + step) % numOfCells; /*player's current position i.e which cell they are in is being changed.
+                                                             numOfCells because position should not overflow cells */
 
   int x = cells[players[turn].position].xCoord;
   int y = cells[players[turn].position].yCoord;
