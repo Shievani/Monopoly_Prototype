@@ -68,12 +68,10 @@ bool canSell (Player &player){
 
 bool sellCell(int turn)
 {
-    Player player = players[turn];
+    if (players[turn].balance < cells[players[turn].position].rent) return false;
 
-    if (player.balance < cells[player.position].rent) return false;
-
-    cells[player.position].owner = turn;
-    player.balance -= cells[player.position].rent;
+    cells[players[turn].position].owner = turn;
+    players[turn].balance -= cells[players[turn].position].rent;
     return true;
 }
 
