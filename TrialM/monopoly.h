@@ -3,7 +3,8 @@
 #include <string>
 using namespace std;
 
-enum TypeOfCell {_RailRoad, _City , _Airport , _ChanceCard , _Start , _GoToJail, _Jail , _IncomeTax};
+enum TypeOfCell {_RailRoad, _City , _Airport , _ChanceCard , _Start , _GoToJail, _Jail , _IncomeTax, _Type, _CommunityCard, _WaterWays
+                ,_GoTo, _Railroad, _ElectricCompany, _Tax};
 
 //enum lets you choose only one of the defined values of TypeOfCell. now TypeOfCell is just a data type, like int is.
 
@@ -28,7 +29,11 @@ struct Player
 Player players[];
 Cell cells[];
 
+
 void initialiseGame();
-void payingRent(Player &player);
+void payingRent(Player &player, int &notification);
+bool goToJail(Player &player, int &notification);
+void incomeTaxPayment (Player &player, int &notification);
+void chanceCards (Player &player, int &notification);
 
 #endif // MONOPOLY

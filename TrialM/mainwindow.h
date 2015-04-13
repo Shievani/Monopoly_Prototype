@@ -27,6 +27,7 @@ private:
     int rolldice1;
     int rolldice2;
     int turn=0;
+
 };
 
 
