@@ -16,7 +16,7 @@ Cell cells[] =
     { "Chance", _ChanceCard, -1, 210, 560, 0 },
     { "Vermont Avenue", _City, -1, 160, 590, 100 },
     { "Connecticut Avenue", _City, -1, 110, 590, 120 },
-    { "Just Visiting", _Type, -1, 60, 560, 0 },
+    { "Jail", _Jail, -1, 60, 560, 0 },
     { "St. Charles Place", _City, -1, 40, 510, 140 },
     { "Electric Company", _City, -1, 40, 450, 150 },
     { "States Avenue", _City, -1, 40, 410, 140 },
@@ -60,6 +60,7 @@ void initialiseGame()
         players[i].inJail = false;
         players[i].balance = 1500;
         players[i].name = ""; //todo
+        players[i].inGame = true;
     }
 }
 
@@ -81,6 +82,11 @@ void payingRent ( Player &player,int &notification ){      /* this input syntax 
                                         ki value alag se copy hoti hai and woh change hoti hai. */
 
     if (cells[player.position].type == _City && cells[player.position].owner != -1) {
+        if ( player.balance < cells[player.position].rent)
+        {   player.inGame= false;
+            notification = 13;
+            return;
+        }
         player.balance = player.balance- cells[player.position].rent;
         players[cells[player.position].owner].balance += cells[player.position].rent;
         notification = 1;
@@ -91,7 +97,7 @@ bool goToJail(Player &player, int &notification)
 {
     if (cells[player.position].type == _GoToJail)
         {
-            player.position = 4;
+            player.position = 10 ;
             return true;
             notification = 2;
         }
@@ -102,6 +108,11 @@ void incomeTaxPayment (Player &player, int &notification)
 {
     if (cells[player.position].type == _Tax)
         {
+        if ( player.balance < 200)
+        {   player.inGame= false;
+            notification = 13;
+            return;
+        }
             player.balance=player.balance-200;
             notification = 3;
         }
@@ -116,6 +127,11 @@ void chanceCards (Player &player, int &notification)
          {
          case 0 :
             {
+             if ( player.balance < 200)
+             {   player.inGame= false;
+                 notification = 13;
+                 return;
+             }
              player.balance=player.balance-200; //deducts 200 from account
              notification = 4;
             }
@@ -135,5 +151,55 @@ void chanceCards (Player &player, int &notification)
         }
 
       }
+
+}
+
+void communityCards (Player &player, int &notification)
+{
+    if (cells[player.position].type == _CommunityCard)
+    { srand( time( NULL ) );
+        int random = rand()%4;
+        switch (random)
+        {
+        case 0:
+            if ( player.balance < 200)
+            {   player.inGame= false;
+                notification = 13;
+                return;
+            }
+            player.balance=player.balance-200; //deducts 200 from account towards educational fund
+            notification = 7;
+            break;
+
+        case 1:
+            if ( player.balance < 100)
+            {   player.inGame= false;
+                notification = 13;
+                return;
+            }
+            player.balance=player.balance-100; //deducts 100 from account towards universal life insurance
+            notification = 8;
+            break;
+
+        case 2:
+            player.balance=player.balance+100; //income tax refund
+            notification = 9;
+            break;
+
+        case 3:
+            player.balance=player.balance+200; //luxury tax refund
+            notification = 10;
+            break;
+
+        }
+    }
+}
+
+void jail (Player &player, int &notification)
+{
+    if (cells[player.position].type == _Jail)
+    {
+        notification = 11;
+    }
 
 }

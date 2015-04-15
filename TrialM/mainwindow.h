@@ -30,6 +30,7 @@ private:
     Ui::MainWindow *ui;
 
     void setResponseButtonsState(bool);
+    void updateTurn();
 
     int rolldice1;
     int rolldice2;

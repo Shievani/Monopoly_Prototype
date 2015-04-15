@@ -36,19 +36,18 @@ void MainWindow::on_rollButton_clicked()
   players[turn].position = (players[turn].position + step) % numOfCells; /*player's current position i.e which cell they are in is being changed.
                                                              numOfCells because position should not overflow cells */
 
-  int x = cells[players[turn].position].xCoord;
-  int y = cells[players[turn].position].yCoord;
-
-  cout << players[turn].position << endl;
-  cout << x << " " << y << endl;
-
-  int notification;
+  int notification = -1;
 
   if (canSell(players[turn])) notification = 0;
 
   payingRent(players[turn] ,notification);
   incomeTaxPayment(players[turn], notification);
   chanceCards (players[turn], notification);
+
+
+
+  int x = cells[players[turn].position].xCoord;
+  int y = cells[players[turn].position].yCoord;
 
   switch(turn)
     {
@@ -120,18 +119,36 @@ void MainWindow::on_rollButton_clicked()
             ui->notification->setText("You landed on a chance block. Randomly selected chance card was picked\
                                        and you were moved to the start cell");
             break;
+    case 7: //Community Card
+            ui->notification->setText("You are paying 200 bucks towards educational fund");
+            break;
+    case 8: //Community Card
+            ui->notification->setText("You are paying 100 bucks towards universal life insurance");
+            break;
+    case 9: //Community Card
+            ui->notification->setText("You are being refunded income tax worth 100 bucks");
+            break;
+    case 10: //Community Card
+            ui->notification->setText("You are being refunded 200 bucks of luxury tax");
+            break;
+    case 11: //Just Visiting jail
+            ui->notification->setText("You are in the jail cell");
+            break;
+    case 13: //Game end
+            ui->notification->setText("You do not have enough money to remain in the game. You lose.");
 
     }
 
     // This line should run at the end of the function
     // If we're waiting for player to decide whether to buy, wait until the decision to increment turn
-    if(!canSell(players[turn])) turn = (turn +1)%4; //counts whose turn is it. 0,1,2,3 which are player array indices
+    if(!canSell(players[turn])) updateTurn(); //counts whose turn is it. 0,1,2,3 which are player array indices
 }
 
 void MainWindow::setResponseButtonsState(bool enabled)
 {
     ui->YesButton->setEnabled(enabled);
     ui->NoButton->setEnabled(enabled);
+    ui->rollButton->setEnabled(!enabled);
 }
 
 void MainWindow::on_YesButton_clicked()
@@ -158,17 +175,29 @@ void MainWindow::on_YesButton_clicked()
     }
 
     setResponseButtonsState(false);
-    turn = (turn +1)%4;
+    updateTurn();
 }
 
 void MainWindow::on_NoButton_clicked()
 {
     ui->notification->setText("You chose not to buy " + cells[players[this->turn].position].name);
     setResponseButtonsState(false);
-    turn = (turn +1)%4;
+    updateTurn();
 }
 
+void MainWindow::updateTurn() {
+    int updatesDone = 0;
+    do {
+        turn = (turn + 1) % 4;
+        updatesDone++;
+    } while(!players[turn].inGame && updatesDone < 4);
 
+    if (updatesDone == 4) {
+        ui->notification->setText("All players lost!");
+        setResponseButtonsState(false);
+        ui->rollButton->setEnabled(false);
+    }
+}
 
 
 
