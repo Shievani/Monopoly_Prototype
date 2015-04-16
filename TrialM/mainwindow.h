@@ -26,6 +26,8 @@ private slots:
 
     void on_NoButton_clicked();
 
+    void on_sell_clicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -104,6 +104,16 @@ bool goToJail(Player &player, int &notification)
         else return false;
 }
 
+bool sellOwnedCell (Player &player, int &notification, int turn){
+    if (cells[player.position].type == _City && cells[players[turn].position].owner==turn  ){
+        notification = 12 ;
+        players[turn].balance += cells[players[turn].position].rent;
+        return true;
+    }
+    else return false;
+}
+
+
 void incomeTaxPayment (Player &player, int &notification)
 {
     if (cells[player.position].type == _Tax)

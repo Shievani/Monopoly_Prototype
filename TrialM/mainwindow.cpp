@@ -33,6 +33,12 @@ void MainWindow::on_rollButton_clicked()
   ui->dice2->display(rolldice2);
   ui->turnlabel->setText(QString::number(turn+1));
 
+  if(players[turn].position>numOfCells-12&&(players[turn].position+step)%numOfCells<12)
+    {players[turn].balance+=150;
+        ui->passgo->setText("You passed the Go cell. Get 150 bucks");
+    }
+    else ui->passgo->setText(" ");
+
   players[turn].position = (players[turn].position + step) % numOfCells; /*player's current position i.e which cell they are in is being changed.
                                                              numOfCells because position should not overflow cells */
 
@@ -99,7 +105,9 @@ void MainWindow::on_rollButton_clicked()
         this->setResponseButtonsState(true);
         break;
     case 1: //rent
-        ui->notification->setText("You are paying rent of 200 bucks");
+        ui->notification->setText("You are paying rent of" +
+                QString::number(cells[players[turn].position].rent) +
+                " bucks.");
         break;
     case 2: //going to jail
         ui->notification->setText("You landed on Go to jail cell. You are being moved to the jail now.");
@@ -149,6 +157,7 @@ void MainWindow::setResponseButtonsState(bool enabled)
     ui->YesButton->setEnabled(enabled);
     ui->NoButton->setEnabled(enabled);
     ui->rollButton->setEnabled(!enabled);
+    ui->sell->setEnabled(!enabled);
 }
 
 void MainWindow::on_YesButton_clicked()
@@ -185,6 +194,32 @@ void MainWindow::on_NoButton_clicked()
     updateTurn();
 }
 
+void MainWindow::on_sell_clicked()
+{   int notification = -1;
+    if(sellOwnedCell(players[turn],notification,this->turn))
+         ui->notification->setText("Congratulation! You sold your property back to the bank");
+
+    switch(this->turn)
+    {
+    case 0:
+        ui->P0_details->setText(QString::number(players[0].balance));
+        break;
+    case 1:
+        ui->P1_details->setText(QString::number(players[1].balance));
+        break;
+    case 2:
+        ui->P2_details->setText(QString::number(players[2].balance));
+        break;
+    case 3:
+        ui->P3_details->setText(QString::number(players[3].balance));
+        break;
+    }
+
+    setResponseButtonsState(false);
+    updateTurn();
+}
+
+
 void MainWindow::updateTurn() {
     int updatesDone = 0;
     do {
@@ -198,17 +233,5 @@ void MainWindow::updateTurn() {
         ui->rollButton->setEnabled(false);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

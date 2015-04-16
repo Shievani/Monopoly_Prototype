@@ -25,6 +25,7 @@ struct Player
     int balance;
     bool inJail;
     bool inGame;
+
 };
 
 extern Player players[];
@@ -38,5 +39,6 @@ void payingRent(Player &player, int &notification);
 bool goToJail(Player &player, int &notification);
 void incomeTaxPayment (Player &player, int &notification);
 void chanceCards (Player &player, int &notification);
+bool sellOwnedCell (Player &player, int &notification, int turn)
 
 #endif // MONOPOLY
