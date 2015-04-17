@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "monopoly.h"
+#include "details.h"
 #include <iostream>
 using namespace std;
 
@@ -142,6 +143,9 @@ void MainWindow::on_rollButton_clicked()
     case 11: //Just Visiting jail
             ui->notification->setText("You are in the jail cell");
             break;
+    case 12: //sell already owned cell
+            ui->notification->setText("You are in the jail cell");
+            break;
     case 13: //Game end
             ui->notification->setText("You do not have enough money to remain in the game. You lose.");
 
@@ -157,7 +161,6 @@ void MainWindow::setResponseButtonsState(bool enabled)
     ui->YesButton->setEnabled(enabled);
     ui->NoButton->setEnabled(enabled);
     ui->rollButton->setEnabled(!enabled);
-    ui->sell->setEnabled(!enabled);
 }
 
 void MainWindow::on_YesButton_clicked()
@@ -234,4 +237,8 @@ void MainWindow::updateTurn() {
     }
 }
 
-
+void MainWindow::on_playerDetails_clicked()
+{
+    Details * details = new Details();
+    details->exec();
+}

@@ -15,12 +15,15 @@ QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    monopoly.cpp
+    monopoly.cpp \
+    details.cpp
 
 HEADERS  += mainwindow.h \
-    monopoly.h
+    monopoly.h \
+    details.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    details.ui
 
 RESOURCES += \
     resources.qrc

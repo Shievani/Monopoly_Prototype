@@ -28,6 +28,8 @@ private slots:
 
     void on_sell_clicked();
 
+    void on_playerDetails_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -37,7 +39,6 @@ private:
     int rolldice1;
     int rolldice2;
     int turn=0;
-
 };
 
 

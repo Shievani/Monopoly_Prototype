@@ -468,8 +468,8 @@ background-color: rgb(255, 255, 0);</string>
    <widget class="QLabel" name="passgo">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>289</y>
+      <x>670</x>
+      <y>290</y>
       <width>301</width>
       <height>21</height>
      </rect>
@@ -478,17 +478,17 @@ background-color: rgb(255, 255, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="sell">
+   <widget class="QPushButton" name="playerDetails">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>540</y>
-      <width>91</width>
-      <height>51</height>
+      <x>750</x>
+      <y>610</y>
+      <width>131</width>
+      <height>34</height>
      </rect>
     </property>
     <property name="text">
-     <string>SELL</string>
+     <string>Player Details</string>
     </property>
    </widget>
   </widget>
