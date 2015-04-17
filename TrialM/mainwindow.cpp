@@ -82,8 +82,8 @@ void MainWindow::on_rollButton_clicked()
     }
 
  if (goToJail(players[turn], notification))
-    { int x = cells[10].xCoord; //Cell number 10 is the jail
-      int y = cells[10].yCoord;
+    { x = cells[10].xCoord; //Cell number 10 is the jail
+      y = cells[10].yCoord;
         switch(turn)
          {
           case 0:
@@ -167,7 +167,9 @@ void MainWindow::on_rollButton_clicked()
 
     // This line should run at the end of the function
     // If we're waiting for player to decide whether to buy, wait until the decision to increment turn
-    if(!canSell(players[turn])) updateTurn(); //counts whose turn is it. 0,1,2,3 which are player array indices
+    if(!canSell(players[turn]) &&
+       !cansellOwnedCell(players[turn], turn) &&
+       !canpayfine(players[turn])) updateTurn(); //counts whose turn is it. 0,1,2,3 which are player array indices
 }
 
 void MainWindow::setResponseButtonsState(bool enabled)
@@ -191,8 +193,9 @@ void MainWindow::on_YesButton_clicked()
     else if(canpayfine(players[this->turn])) {
         if(payfine(this->turn)) {
             ui->notification->setText("You are out of jail and in free parking cell now");
-            int x = 40;
-            int y = 70;
+            players[this->turn].position = 20; //Position of Free Parking in cells[]
+            int x = cells[20].xCoord;
+            int y = cells[20].yCoord;
             switch(turn)
             {
             case 0:
@@ -236,9 +239,9 @@ void MainWindow::on_YesButton_clicked()
 
 void MainWindow::on_NoButton_clicked()
 {
-    if(sellCell(this->turn))
+    if(canSell(players[this->turn]))
         ui->notification->setText("You chose not to buy " + cells[players[this->turn].position].name);
-    else if(payfine(this->turn))
+    else if(canpayfine(players[this->turn]))
          ui->notification->setText("You chose not to get out of jail.");
     setResponseButtonsState(false);
     updateTurn();

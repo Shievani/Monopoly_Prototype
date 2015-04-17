@@ -2,8 +2,6 @@
 #include <iostream>
 #include <ctime> //includes time from computer
 
-
-
 Player players[4];
 
 // Remember to update all hardcoded cells[] locations if you update this
@@ -90,7 +88,7 @@ bool sellCell(int turn)
 }
 
 bool canpayfine(Player &player){
-    if (cells[player.position].type== _Jail){
+    if (cells[player.position].type == _Jail){
         return true;
     }
     else return false;
@@ -134,9 +132,7 @@ bool goToJail(Player &player, int &notification)
 }
 
 bool cansellOwnedCell(Player &player , int turn){
-    if (cells[player.position].type == _City && cells[players[turn].position].owner==turn){
-    return true;
-}
+    if (cells[player.position].type == _City && cells[player.position].owner==turn) return true;
     else return false;
 }
 
