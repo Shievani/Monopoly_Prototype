@@ -110,7 +110,7 @@ void MainWindow::on_rollButton_clicked()
         this->setResponseButtonsState(true);
         break;
     case 1: //rent
-        ui->notification->setText("You are paying rent of" +
+        ui->notification->setText("You are paying rent of " +
                 QString::number(cells[players[turn].position].rent) +
                 " bucks.");
         break;
