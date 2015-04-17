@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::Details *ui;
+    QVector<QStringList> cities = QVector<QStringList>(4);
 };
 
 #endif // DETAILS_H
