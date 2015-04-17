@@ -42,7 +42,7 @@ Cell cells[] =
     { "North Carolina Avenue", _City, -1, 590, 160, 300 },
     { "Community Chest", _CommunityCard, -1, 560, 210, 0 },
     { "Pennsylvania Avenue", _City, -1, 590, 260, 320 },
-    { "Short Line", _City, -1, 580, 310, 0 },
+    { "Short Line", _City, -1, 580, 310, 100 },
     { "Chance", _ChanceCard, -1, 570, 360, 0 },
     { "Park Place", _City, -1, 590, 410, 350 },
     { "Luxury Tax", _Tax, -1, 565, 460, 400 },
@@ -67,7 +67,9 @@ void initialiseGame()
 }
 
 bool canSell (Player &player){
-    return (cells[player.position].type == _City && cells[player.position].owner == -1);
+    if(cells[player.position].type == _City && cells[player.position].owner == -1)
+        return true;
+    else return false;
 }
 
 bool sellCell(int turn)
@@ -77,6 +79,21 @@ bool sellCell(int turn)
     cells[players[turn].position].owner = turn;
     players[turn].balance -= cells[players[turn].position].rent;
     return true;
+}
+
+bool canpayfine(Player &player){
+    if (cells[player.position].type== _Jail){
+        return true;
+    }
+    else return false;
+}
+
+bool payfine(int turn)
+{
+    if (players[turn].balance < 50) return false;
+    players[turn].position = 20;
+     players[turn].balance -= 50;
+     return true;
 }
 
 void payingRent ( Player &player,int &notification ){      /* this input syntax declares that the input will be an object of stuct Players named anything u want.

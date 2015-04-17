@@ -47,6 +47,7 @@ void MainWindow::on_rollButton_clicked()
 
   if (canSell(players[turn])) notification = 0;
   if (cansellOwnedCell(players[turn],turn))notification = 12;
+  if (canpayfine(players[turn])) notification = 14;
 
 
   payingRent(players[turn] ,notification);
@@ -144,14 +145,16 @@ void MainWindow::on_rollButton_clicked()
     case 10: //Community Card
             ui->notification->setText("You are being refunded 200 bucks of luxury tax");
             break;
-    case 11: //Just Visiting jail
-            ui->notification->setText("You are in the jail cell");
+    case 11: //Just Visiting cell
+            ui->notification->setText("You are in the just visiting cell");
             break;
     case 12: //sell already owned cell
             ui->notification->setText("You landed on a cell you already own. Do you want to sell it?");
             break;
     case 13: //Game end
             ui->notification->setText("You do not have enough money to remain in the game. You lose.");
+    case 14: //pay fine to get out of jail
+            ui->notification->setText("Do you want to pay a fine of 50 bucks to get out of jail cell.");
 
     }
 
@@ -174,7 +177,11 @@ void MainWindow::on_YesButton_clicked()
     else if(!sellCell(this->turn))
         ui->notification->setText("You don't have enough money to buy " + cells[players[this->turn].position].name);
     else if(sellOwnedCell(players[turn],this->turn))
-         ui->notification->setText("Congratulation! You sold your property back to the bank")
+         ui->notification->setText("Congratulation! You sold your property back to the bank");
+    else if(payfine(this->turn))
+         ui->notification->setText("You are out of jail and in free parking cell now");
+    else if(!payfine(this->turn))
+        ui->notification->setText("You do not have enough money to get out of jail");
 ;
 
     switch(this->turn)
@@ -199,7 +206,10 @@ void MainWindow::on_YesButton_clicked()
 
 void MainWindow::on_NoButton_clicked()
 {
-    ui->notification->setText("You chose not to buy " + cells[players[this->turn].position].name);
+    if(sellCell(this->turn))
+        ui->notification->setText("You chose not to buy " + cells[players[this->turn].position].name);
+    else if(payfine(this->turn))
+         ui->notification->setText("You chose not to get out of jail.");
     setResponseButtonsState(false);
     updateTurn();
 }

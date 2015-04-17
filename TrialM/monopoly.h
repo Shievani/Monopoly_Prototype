@@ -33,6 +33,8 @@ extern int numOfCells;
 
 bool canSell(Player&);
 bool sellCell(int);
+bool canpayfine(Player &player);
+bool payfine(int turn);
 void initialiseGame();
 void payingRent(Player &player, int &notification);
 bool goToJail(Player &player, int &notification);
