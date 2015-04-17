@@ -46,10 +46,14 @@ void MainWindow::on_rollButton_clicked()
   int notification = -1;
 
   if (canSell(players[turn])) notification = 0;
+  if (cansellOwnedCell(players[turn],turn))notification = 12;
+
 
   payingRent(players[turn] ,notification);
   incomeTaxPayment(players[turn], notification);
   chanceCards (players[turn], notification);
+  jail (players[turn],notification);
+  communityCards (players[turn],notification);
 
 
 
@@ -144,7 +148,7 @@ void MainWindow::on_rollButton_clicked()
             ui->notification->setText("You are in the jail cell");
             break;
     case 12: //sell already owned cell
-            ui->notification->setText("You are in the jail cell");
+            ui->notification->setText("You landed on a cell you already own. Do you want to sell it?");
             break;
     case 13: //Game end
             ui->notification->setText("You do not have enough money to remain in the game. You lose.");
@@ -167,8 +171,11 @@ void MainWindow::on_YesButton_clicked()
 {
     if(sellCell(this->turn))
         ui->notification->setText("Congrats! You bought " + cells[players[this->turn].position].name);
-    else
+    else if(!sellCell(this->turn))
         ui->notification->setText("You don't have enough money to buy " + cells[players[this->turn].position].name);
+    else if(sellOwnedCell(players[turn],this->turn))
+         ui->notification->setText("Congratulation! You sold your property back to the bank")
+;
 
     switch(this->turn)
     {
@@ -197,32 +204,6 @@ void MainWindow::on_NoButton_clicked()
     updateTurn();
 }
 
-void MainWindow::on_sell_clicked()
-{   int notification = -1;
-    if(sellOwnedCell(players[turn],notification,this->turn))
-         ui->notification->setText("Congratulation! You sold your property back to the bank");
-
-    switch(this->turn)
-    {
-    case 0:
-        ui->P0_details->setText(QString::number(players[0].balance));
-        break;
-    case 1:
-        ui->P1_details->setText(QString::number(players[1].balance));
-        break;
-    case 2:
-        ui->P2_details->setText(QString::number(players[2].balance));
-        break;
-    case 3:
-        ui->P3_details->setText(QString::number(players[3].balance));
-        break;
-    }
-
-    setResponseButtonsState(false);
-    updateTurn();
-}
-
-
 void MainWindow::updateTurn() {
     int updatesDone = 0;
     do {
@@ -242,3 +223,27 @@ void MainWindow::on_playerDetails_clicked()
     Details * details = new Details();
     details->exec();
 }
+
+void MainWindow::on_Player1Edit_returnPressed()
+{
+    players[0].name = ui->Player1Edit->text().toStdString();
+}
+
+
+void MainWindow::on_Player2Edit_returnPressed()
+{
+    players[1].name = ui->Player2Edit->text().toStdString();
+}
+
+void MainWindow::on_Player3Edit_returnPressed()
+{
+    players[2].name = ui->Player3Edit->text().toStdString();
+}
+
+
+void MainWindow::on_Player4Edit_returnPressed()
+{
+    players[3].name = ui->Player4Edit->text().toStdString();
+}
+
+

@@ -60,8 +60,9 @@ void initialiseGame()
         players[i].position = 0;
         players[i].inJail = false;
         players[i].balance = 1500;
-        players[i].name = ""; //todo
+        players[i].name = ("Player " + QString::number(i+1)).toStdString();
         players[i].inGame = true;
+
     }
 }
 
@@ -105,9 +106,15 @@ bool goToJail(Player &player, int &notification)
         else return false;
 }
 
-bool sellOwnedCell (Player &player, int &notification, int turn){
+bool cansellOwnedCell(Player &player , int turn){
+    if (cells[player.position].type == _City && cells[players[turn].position].owner==turn){
+    return true;
+}
+    else return false;
+}
+
+ bool sellOwnedCell (Player &player , int turn){
     if (cells[player.position].type == _City && cells[players[turn].position].owner==turn  ){
-        notification = 12 ;
         players[turn].balance += cells[players[turn].position].rent;
         return true;
     }

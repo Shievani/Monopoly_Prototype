@@ -26,9 +26,15 @@ private slots:
 
     void on_NoButton_clicked();
 
-    void on_sell_clicked();
-
     void on_playerDetails_clicked();
+
+    void on_Player1Edit_returnPressed();
+
+    void on_Player2Edit_returnPressed();
+
+    void on_Player3Edit_returnPressed();
+
+    void on_Player4Edit_returnPressed();
 
 private:
     Ui::MainWindow *ui;

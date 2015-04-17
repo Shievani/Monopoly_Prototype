@@ -38,6 +38,9 @@ void payingRent(Player &player, int &notification);
 bool goToJail(Player &player, int &notification);
 void incomeTaxPayment (Player &player, int &notification);
 void chanceCards (Player &player, int &notification);
-bool sellOwnedCell (Player &player, int &notification, int turn);
+bool cansellOwnedCell(Player &player , int turn);
+bool sellOwnedCell (Player &player,int turn);
+void jail (Player &player, int &notification);
+void communityCards (Player &player, int &notification);
 
 #endif // MONOPOLY
