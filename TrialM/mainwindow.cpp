@@ -48,12 +48,12 @@ void MainWindow::on_rollButton_clicked()
   if (canSell(players[turn])) notification = 0;
   if (cansellOwnedCell(players[turn],turn))notification = 12;
   if (canpayfine(players[turn])) notification = 14;
+  if (freeparking(players[turn])) notification = 11;
 
 
   payingRent(players[turn] ,notification);
   incomeTaxPayment(players[turn], notification);
   chanceCards (players[turn], notification);
-  jail (players[turn],notification);
   communityCards (players[turn],notification);
 
 
@@ -64,7 +64,7 @@ void MainWindow::on_rollButton_clicked()
   switch(turn)
     {
      case 0:
-         ui->Pointer0->move(x, y); //moving the GUI pointer
+         ui->Pointer0->move(x,y); //moving the GUI pointer
          ui->P0_details->setText(QString::number(players[0].balance));
          break;
      case 1:
@@ -80,9 +80,10 @@ void MainWindow::on_rollButton_clicked()
          ui->P3_details->setText(QString::number(players[3].balance));
          break;
     }
+
  if (goToJail(players[turn], notification))
-    { int x = cells[players[turn].position].xCoord;
-      int y = cells[players[turn].position].yCoord;
+    { int x = cells[10].xCoord; //Cell number 10 is the jail
+      int y = cells[10].yCoord;
         switch(turn)
          {
           case 0:
@@ -111,9 +112,11 @@ void MainWindow::on_rollButton_clicked()
         this->setResponseButtonsState(true);
         break;
     case 1: //rent
-        ui->notification->setText("You are paying rent of " +
-                QString::number(cells[players[turn].position].rent) +
-                " bucks.");
+        ui->notification->setText("You are paying rent for " +
+                                  cells[players[turn].position].name +
+                                  " of " +
+                                  QString::number(cells[players[turn].position].rent) +
+                                  " bucks to " + players[cells[players[turn].position].owner].name);
         break;
     case 2: //going to jail
         ui->notification->setText("You landed on Go to jail cell. You are being moved to the jail now.");
@@ -134,27 +137,31 @@ void MainWindow::on_rollButton_clicked()
                                        and you were moved to the start cell");
             break;
     case 7: //Community Card
-            ui->notification->setText("You are paying 200 bucks towards educational fund");
+            ui->notification->setText("Community card 1. You are paying 200 bucks towards educational fund");
             break;
     case 8: //Community Card
-            ui->notification->setText("You are paying 100 bucks towards universal life insurance");
+            ui->notification->setText("Community card 2.You are paying 100 bucks towards universal life insurance");
             break;
     case 9: //Community Card
-            ui->notification->setText("You are being refunded income tax worth 100 bucks");
+            ui->notification->setText("Community card 3.You are being refunded income tax worth 100 bucks");
             break;
     case 10: //Community Card
-            ui->notification->setText("You are being refunded 200 bucks of luxury tax");
+            ui->notification->setText("Community card 4. You are being refunded 200 bucks of luxury tax");
             break;
-    case 11: //Just Visiting cell
-            ui->notification->setText("You are in the just visiting cell");
+    case 11: //free parking cell
+            ui->notification->setText("You have landed on free parking cell.");
             break;
     case 12: //sell already owned cell
             ui->notification->setText("You landed on a cell you already own. Do you want to sell it?");
+            this->setResponseButtonsState(true);
             break;
     case 13: //Game end
             ui->notification->setText("You do not have enough money to remain in the game. You lose.");
+            break;
     case 14: //pay fine to get out of jail
             ui->notification->setText("Do you want to pay a fine of 50 bucks to get out of jail cell.");
+            this->setResponseButtonsState(true);
+            break;
 
     }
 
@@ -172,17 +179,40 @@ void MainWindow::setResponseButtonsState(bool enabled)
 
 void MainWindow::on_YesButton_clicked()
 {
-    if(sellCell(this->turn))
-        ui->notification->setText("Congrats! You bought " + cells[players[this->turn].position].name);
-    else if(!sellCell(this->turn))
-        ui->notification->setText("You don't have enough money to buy " + cells[players[this->turn].position].name);
-    else if(sellOwnedCell(players[turn],this->turn))
+    if (canSell(players[this->turn])) {
+        if(sellCell(this->turn))
+            ui->notification->setText("Congrats! You bought " + cells[players[this->turn].position].name);
+        else
+            ui->notification->setText("You don't have enough money to buy " + cells[players[this->turn].position].name);
+    }
+
+    else if(cansellOwnedCell(players[this->turn], this->turn) && (sellOwnedCell(players[turn],this->turn)))
          ui->notification->setText("Congratulation! You sold your property back to the bank");
-    else if(payfine(this->turn))
-         ui->notification->setText("You are out of jail and in free parking cell now");
-    else if(!payfine(this->turn))
-        ui->notification->setText("You do not have enough money to get out of jail");
-;
+    else if(canpayfine(players[this->turn])) {
+        if(payfine(this->turn)) {
+            ui->notification->setText("You are out of jail and in free parking cell now");
+            int x = 40;
+            int y = 70;
+            switch(turn)
+            {
+            case 0:
+                ui->Pointer0->move(x, y); //moving the GUI pointer
+                break;
+            case 1:
+                ui->Pointer1->move(x, y);
+                break;
+            case 2:
+                ui->Pointer2->move(x, y);
+                break;
+            case 3:
+                ui->Pointer3->move(x, y);
+                break;
+            }
+        }
+        else if(!payfine(this->turn))
+            ui->notification->setText("You do not have enough money to get out of jail");
+    }
+
 
     switch(this->turn)
     {
@@ -236,24 +266,24 @@ void MainWindow::on_playerDetails_clicked()
 
 void MainWindow::on_Player1Edit_returnPressed()
 {
-    players[0].name = ui->Player1Edit->text().toStdString();
+    players[0].name = ui->Player1Edit->text();
 }
 
 
 void MainWindow::on_Player2Edit_returnPressed()
 {
-    players[1].name = ui->Player2Edit->text().toStdString();
+    players[1].name = ui->Player2Edit->text();
 }
 
 void MainWindow::on_Player3Edit_returnPressed()
 {
-    players[2].name = ui->Player3Edit->text().toStdString();
+    players[2].name = ui->Player3Edit->text();
 }
 
 
 void MainWindow::on_Player4Edit_returnPressed()
 {
-    players[3].name = ui->Player4Edit->text().toStdString();
+    players[3].name = ui->Player4Edit->text();
 }
 
 

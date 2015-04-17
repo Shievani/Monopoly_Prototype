@@ -13,7 +13,7 @@ Details::Details(QWidget *parent) :
     ui->setupUi(this);
     for (int i=0; i<4; i++)
     {
-        ui->comboBox->setItemText(i, QString::fromStdString(players[i].name) + " ("+ QString::number(cities[i].count()) + ")");
+        ui->comboBox->setItemText(i, (players[i].name) + " ("+ QString::number(cities[i].count()) + ")");
     }
     this->on_comboBox_activated(0);
 }

@@ -5,6 +5,8 @@
 
 
 Player players[4];
+
+// Remember to update all hardcoded cells[] locations if you update this
 Cell cells[] =
 {
     { "Go", _Start, -1, 580, 580, 0 }, // {name, TypeOfCell,owner,xCoord,yCoord,rent}; here, each line is a element of array cells[].counting frm 0
@@ -37,7 +39,7 @@ Cell cells[] =
     { "Ventnor Avenue", _City, -1, 410, 40, 260 },
     { "Water Works", _City, -1, 460, 40, 150 },
     { "Marvin Gardens", _City, -1, 510, 40, 280 },
-    { "Go to Dungeon", _GoTo, -1, 550, 30, 0 },
+    { "Go to Jail", _GoToJail, -1, 550, 30, 0 },
     { "Pacific Avenue", _City, -1, 590, 110, 300 },
     { "North Carolina Avenue", _City, -1, 590, 160, 300 },
     { "Community Chest", _CommunityCard, -1, 560, 210, 0 },
@@ -60,10 +62,16 @@ void initialiseGame()
         players[i].position = 0;
         players[i].inJail = false;
         players[i].balance = 1500;
-        players[i].name = ("Player " + QString::number(i+1)).toStdString();
+        players[i].name = ("Player " + QString::number(i+1));
         players[i].inGame = true;
 
     }
+}
+
+bool freeparking(Player &player){
+    if (cells[player.position].type == _Type)
+        return true;
+    else return false;
 }
 
 bool canSell (Player &player){
@@ -90,10 +98,12 @@ bool canpayfine(Player &player){
 
 bool payfine(int turn)
 {
-    if (players[turn].balance < 50) return false;
-    players[turn].position = 20;
-     players[turn].balance -= 50;
-     return true;
+    if (players[turn].balance > 50)
+    {
+        players[turn].balance -= 50;
+        return true;
+    }
+    else return false;
 }
 
 void payingRent ( Player &player,int &notification ){      /* this input syntax declares that the input will be an object of stuct Players named anything u want.
@@ -230,11 +240,4 @@ void communityCards (Player &player, int &notification)
     }
 }
 
-void jail (Player &player, int &notification)
-{
-    if (cells[player.position].type == _Jail)
-    {
-        notification = 11;
-    }
 
-}
