@@ -125,8 +125,8 @@ bool goToJail(Player &player, int &notification)
     if (cells[player.position].type == _GoToJail)
         {
             player.position = 10 ;
-            return true;
             notification = 2;
+            return true;
         }
         else return false;
 }
